@@ -1,0 +1,34 @@
+---
+
+- name: Deploy all vaccination scheduling artifacts
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  run_once: true
+
+  tasks:
+
+    # 1) Invoke the FHIR server role
+    - set_fact:
+        namespace: "{{ project_name }}"
+        resources_dir: "{{ resources_base_dir }}/fhirserver"
+        work_dir_name: "{{ project_name }}"
+    - include_role:
+        name: ../roles/fhirserver
+      when: >
+        ACTION is not defined or
+        ACTION is none or
+        ACTION|trim() == "" or
+        ACTION|trim() == "install"
+    - include_role:
+        name: ../roles/fhirserver
+        tasks_from: uninstall
+      when: >
+        ACTION is defined and
+        ACTION|trim() == "uninstall"
+
+
+  # 2) Invoke another role here ...
+
+
+  # 3) Invoke yet another role here ...
