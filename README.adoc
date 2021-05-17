@@ -69,11 +69,13 @@ Supporting files used by custom roles in this playbook.
 
 . Log into OpenShift using the `oc` command line utility.
 
-. Execute the following to deploy the HAPI FHIR Server to OpenShift: 
+. Execute the following to deploy the HAPI FHIR Server to OpenShift in a namespace of convention:  _user1-app-services-deploy_ 
 +
 -----
 $ ansible-playbook playbooks/install.yml
 -----
++
+NOTE:  The name of the default namespace can be changed as desired by specifying the following command line argument to ansible-playbook:  `-e project_name=<change me>`.
 
 .. At the completion of the installation, expect to see messages similar to the following:
 +
@@ -88,7 +90,7 @@ localhost                  : ok=31   changed=16   unreachable=0    failed=0    s
 .. Verify successful install of the HAPI FHIR server. Do so by executing the following command and pointing your browser to the URL returned by the command: 
 +
 -----
-$ echo -en "\nhttps://$( oc get route fhir-server -n app-services-deploy-user1 --template='{{ .spec.host }}' )\n"
+$ echo -en "\nhttps://$( oc get route fhir-server -n user1-app-services-deploy --template='{{ .spec.host }}' )\n"
 ----- 
 +
 image::docs/images/hapi_fhir_home.png[]
